@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Layout from '../components/layout';
+import Layout from '../components/Layout';
 import { useFormik} from 'formik';
 import * as Yup from 'yup';
 import { gql, useMutation } from '@apollo/client';
@@ -136,9 +136,7 @@ const Login = () => {
                                      </div>   
                         ) : null }
 
-                       <input type='submit' className='bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:bg-gray-900' value='Iniciar Sesión'>
-
-                       </input>
+                       <input type='submit' className='bg-gray-800 w-full mt-5 p-2 text-white uppercase hover:bg-gray-900' value='Iniciar Sesión'/>
                     </form>
                 </div>
             </div>

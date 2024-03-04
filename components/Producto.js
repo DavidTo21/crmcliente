@@ -3,46 +3,46 @@ import Swal from 'sweetalert2';
 import { useMutation, gql } from "@apollo/client";
 import Router from "next/router";
 
-const ELIMINAR_CLIENTE = gql`
-    mutation eliminarCliente($id: ID!) {
-        eliminarCliente(id:$id) 
+const ELIMINAR_PRODUCTO = gql`
+    mutation Mutation($id: ID!) {
+        eliminarProducto(id: $id)
     }
 `;
 
-const OBTENER_CLIENTES_USUARIO = gql`
-  query ObtenerClientesVendedor {
-    obtenerClientesVendedor {
-      id
-      nombre
-      apellido
-      empresa
-      email
-    }
+const OBTENER_PRODUCTOS = gql`
+  query ObtenerProductos {
+  obtenerProductos {
+    id
+    nombre
+    existencia
+    precio
+    creado
+  }
 }
 `;
 
-const Cliente = ({ cliente }) => {
+const Producto = ({ producto }) => {
 
     //MUTATION 
-    const [eliminarCliente] = useMutation(ELIMINAR_CLIENTE,{
+    const [eliminarProducto] = useMutation(ELIMINAR_PRODUCTO,{
         update(cache) {
             //OBTENER UNA COPIA DE LA CACHE
-            const  { obtenerClientesVendedor } = cache.readQuery( { query: OBTENER_CLIENTES_USUARIO });
+            const  { obtenerProductos } = cache.readQuery( { query: OBTENER_PRODUCTOS });
             //REESCRIBIR A CACHE
             cache.writeQuery({
-                query: OBTENER_CLIENTES_USUARIO,
+                query: OBTENER_PRODUCTOS,
                 data: {
-                    obtenerClientesVendedor: obtenerClientesVendedor.filter(cliente => cliente.id!== id)
+                    obtenerProductos: obtenerProductos.filter(cliente => cliente.id!== id)
                 }
             })
         }
     });
 
-    const { nombre, apellido, empresa, email, id} = cliente;
+    const { nombre, existencia, precio, id} = producto;
 
-    const confirmarEliminarCliente = () => {
+    const confirmarEliminarProducto = () => {
         Swal.fire({
-            title: "¿Desea eliminar a este cliente?",
+            title: "¿Desea eliminar a este producto?",
             text: "Esta acción no se puede deshacer",
             icon: "warning",
             showCancelButton: true,
@@ -54,7 +54,7 @@ const Cliente = ({ cliente }) => {
             if (result.isConfirmed) {
                 try {
                     //ELIMINAR POR ID
-                    const { data } = await eliminarCliente({
+                    const { data } = await eliminarProducto({
                         variables: {
                             id
                         }
@@ -62,7 +62,7 @@ const Cliente = ({ cliente }) => {
                     //MOSTRAR ALERTA
                     Swal.fire({
                         title: "Eliminado!",
-                        text: data.eliminarCliente,
+                        text: data.eliminarProducto,
                         icon: "success"
                       });
                 } catch (error) {
@@ -74,25 +74,25 @@ const Cliente = ({ cliente }) => {
     }
 
     //Funcion editar cliente
-    const editarCliente = () => {
+    const editarProducto = () => {
         Router.push({
-            pathname: '/editarCliente/[id]',
+            pathname: '/editarProducto/[id]',
             query: {
                 id
             }
         })
     }
-
+    
     return (
         <tr>
-            <td className="border px-4 py-2">{nombre} {apellido}</td>
-            <td className="border px-4 py-2">{empresa}</td>
-            <td className="border px-4 py-2">{email}</td>
+            <td className="border px-4 py-2">{nombre}</td>
+            <td className="border px-4 py-2">{existencia} Pzas.</td>
+            <td className="border px-4 py-2">$ {precio}</td>
             <td className="border px-4 py-2">
                 <button 
                     className="flex justify-center items-center bg-red-800 py-2 px-4 w-full text-white rounded text-xs uppercase" 
                     type="button"
-                    onClick={() => confirmarEliminarCliente() }
+                    onClick={() => confirmarEliminarProducto() }
                 >
                         Eliminar
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 ml-2">
@@ -104,7 +104,7 @@ const Cliente = ({ cliente }) => {
                 <button 
                     className="flex justify-center items-center bg-green-600 py-2 px-4 w-full text-white rounded text-xs uppercase" 
                     type="button"
-                    onClick={() => editarCliente() }
+                    onClick={() => editarProducto() }
                 >
                         Editar
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-4 h-4 ml-2">
@@ -117,4 +117,4 @@ const Cliente = ({ cliente }) => {
     );
 }
 
-export default Cliente;
+export default Producto;

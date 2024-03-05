@@ -20,6 +20,7 @@
     "node-fetch": "^2.6.7",
     "react": "^18",
     "react-dom": "^18",
+    "react-select": "^5.8.0",
     "stream-browserify": "^3.0.0",
     "sweetalert2": "^11.10.5",
     "url": "^0.11.3",

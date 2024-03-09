@@ -25,11 +25,9 @@ const MejoresVendedores = () => {
         return () => {
             stopPolling();
         }
-    },[startPolling, stopPolling])
+    }, [startPolling, stopPolling])
 
     if (loading) return 'Cargando...';
-
-    console.log(data);
 
     const { mejoresVendedores } = data;
 
@@ -45,31 +43,30 @@ const MejoresVendedores = () => {
 
     return ( 
         <Layout>
-            <h1 className='text-2xl text-gray-800 font-light'>Mejores Vendedores</h1>
+            <h1 className="text-2xl text-gray-800 font-light">Mejores Vendedores</h1>
 
- 
-        <BarChart
-            className='mt-10'
-            width={600}
-            height={500}
-            data={vendedorGrafica}
-            margin={{
-                top: 5,
-                right: 30,
-                left: 20,
-                bottom: 5,
-            }}
+            <ResponsiveContainer
+                width={'99%'}
+                height={550}
             >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="nombre" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="total" fill="#3182CE" activeBar={<Rectangle fill="blue" stroke="blue" />} />
-            </BarChart>
-
+                <BarChart
+                    className="mt-10"
+                    width={600}
+                    height={500}
+                    data={vendedorGrafica}
+                    margin={{
+                        top: 5, right: 30, left: 20, bottom: 5,
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="nombre" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="total" fill="#3182CE" />
+                </BarChart>
+            </ResponsiveContainer>
         </Layout>
-        
      );
 }
  

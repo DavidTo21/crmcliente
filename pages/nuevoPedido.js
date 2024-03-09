@@ -55,21 +55,16 @@ const NuevoPedido = () => {
 
     //Mutation para crear un nuevo pedido
     const [ nuevoPedido ] = useMutation(NUEVO_PEDIDO,{
-        update(cache, { data: { nuevoPedido } }){
-            //OBTENER EL OBJETO DE CACHE QUE SE DESEA ACTUALIZAR DE
-            const { obtenerPedidosVendedor } = cache.readQuery({ 
-                query: OBTENER_PEDIDOS
-            });
-
-            //REESCRIBIR EL CACHE (EL CACHE NUNCA SE DEBE MODIFICAR)
+        update(cache, { data: { nuevoPedido }}) {
+            const {  obtenerPedidosVendedor} = cache.readQuery({query: OBTENER_PEDIDOS });
             cache.writeQuery({
-                query:  OBTENER_PEDIDOS,
-                data: {
-                    obtenerPedidosVendedor: [...obtenerPedidosVendedor, nuevoPedido ]
-                }
+              query: OBTENER_PEDIDOS,
+              data: {
+                obtenerPedidosVendedor: [...obtenerPedidosVendedor, nuevoPedido]
+              }
             })
-        }
-    })
+          }
+        }); 
     
     const validarPedido = () => {
         return !productos.every( producto => producto.cantidad > 0) || total === 0 || cliente.length === 0 ? " opacity-50 cursor-not-allowed "  : "" ;

@@ -50,10 +50,14 @@ const Login = () => {
                     }
                 });
                 console.log(data);
-                guardarMensaje('Autenticando...');
-                //GUARDAR TOKEN EN LOCALSTORAGE
+                guardarMensaje('Autenticando...');              
+
+                setTimeout(() => {
+                    //GUARDAR TOKEN EN LOCALSTORAGE
                 const { token } = data.autenticarUsuario;
                 localStorage.setItem('token', token);
+                }, 1000);
+                
                 //REDIRECCIONAR A CLIENTES
                 setTimeout(() => {
                     guardarMensaje(null);
